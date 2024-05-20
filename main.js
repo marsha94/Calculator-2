@@ -18,6 +18,9 @@ class Calculator {
 
 	appendNumber(number) {
 		if (number === '.' && this.currentOperand.includes('.')) return;
+		if (this.operation == undefined) {
+			this.previousOperand = '';
+		}
 		this.currentOperand += number;
 	}
 
@@ -59,17 +62,29 @@ class Calculator {
 		this.previousOperand = operations.find(op => op.operator == this.operation).opFunc().toString();
 		this.operation = undefined;
 		this.currentOperand = '';
-		
+	}
+
+	toggleSign() {
+		if (this.currentOperand == '' && this.previousOperand != "") {
+			if (this.previousOperand.includes('-')) {
+				this.previousOperand = this.previousOperand.slice(1, this.previousOperand.length);
+			} else {
+				this.previousOperand = '-' + this.previousOperand;
+			}
+		} else {
+			if (this.currentOperand.includes('-')) {
+				this.currentOperand = this.currentOperand.slice(1, this.currentOperand.length);
+			} else {
+				this.currentOperand = '-' + this.currentOperand;
+			}
+		}
 	}
 
 	updateDisplay() {
 		this.currOperandtextElement.innerText = this.currentOperand;
 		this.prevOperandtextElement.innerText = this.previousOperand;
 	}
-
 }
-
-
 
 const numberButtons = document.querySelectorAll('[data-number]');
 const operationButtons = document.querySelectorAll('[data-operator]');
@@ -77,6 +92,7 @@ const clearButton = document.querySelector('[data-clear]');
 const deleteButton = document.querySelector('[data-delete]');
 const percentageButton = document.querySelector('[data-percentage]');
 const equalButton = document.querySelector('[data-equal]');
+const signButton = document.querySelector('[data-sign]');
 const prevOperandtextElement = document.querySelector('[data-prev-operand]');
 const currOperandtextElement = document.querySelector('[data-curr-operand]');
 
@@ -113,5 +129,10 @@ deleteButton.addEventListener('click', ()=> {
 
 percentageButton.addEventListener('click', () => {
 	calculator.convertToPercent();
+	calculator.updateDisplay();
+})
+
+signButton.addEventListener('click', () => {
+	calculator.toggleSign();
 	calculator.updateDisplay();
 })

@@ -57,9 +57,9 @@ body {
 	border-radius: 20%;
 }
 
-.key-buttons .span-two {
+/* .key-buttons .span-two {
 	flex-basis: 50%;
-}
+} */
 
 .key-buttons button {
 	flex-grow: 1;
